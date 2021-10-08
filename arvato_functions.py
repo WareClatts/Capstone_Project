@@ -86,7 +86,7 @@ def prepare_famd(df, continuous_vars, to_drop, reduce_columns, subsample=0.5):
 
 ##############################################################################################################
 
-def prepare_mca(df, to_drop, continuous_vars, reduce_columns, subsample=0.5):
+def prepare_mca(df, to_drop, continuous_vars, reduce_columns, subsample=0.5, onehot=True):
     
     """Preparing data for MCA"""
     
@@ -96,8 +96,11 @@ def prepare_mca(df, to_drop, continuous_vars, reduce_columns, subsample=0.5):
     
     if reduce_columns == True:
         test.drop(labels=to_drop, axis=1, inplace=True)
-    
-    test = prepare_cat_cols(test, continuous_vars, 'all_cat_cols') #'None'
+        
+    if onehot==True:
+        test = prepare_cat_cols(test, continuous_vars, 'all_cat_cols') 
+    else:
+        test = prepare_cat_cols(test, continuous_vars, 'None') 
     
     test = test.replace([-1],100)
     
@@ -237,7 +240,7 @@ def plot_famd(famd_results, famd_object, df, analyse_loadings=True):
 
 ##############################################################################################################
 
-def plot_mca(mca_object, df, fit=True, analyse_loadings=True):
+def plot_mca(mca_object, df, fit=True, analyse_loadings=True, show_inertia=False):
     
     """plot results and loadings of MCA"""
     
@@ -256,9 +259,9 @@ def plot_mca(mca_object, df, fit=True, analyse_loadings=True):
     plt.ylabel('Principle Component 2 Scores');
     plt.show()
 
-    
-    # print(f'First two components explain: {mca_object.explained_inertia_}, total inertia = {mca_object.total_inertia_}')
-    # print('\r')
+    if show_inertia==True:
+        print(f'First two components explain: {mca_object.explained_inertia_}, total inertia = {mca_object.total_inertia_}')
+        print('\r')
     
     if analyse_loadings == True:
 
@@ -359,11 +362,12 @@ def DBSCAN_processing(clustering, df):
 
         xy = df[class_member_mask & core_samples_mask]
         plt.plot(xy.iloc[:, 0], xy.iloc[:, 1], 'o', markerfacecolor=tuple(col),
-                 markeredgecolor='k', markersize=14)
+                 markeredgecolor='k', markersize=14, label=f'{k}')
 
         xy = df[class_member_mask & ~core_samples_mask]
         plt.plot(xy.iloc[:, 0], xy.iloc[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
     plt.title('Estimated number of clusters: %d' % n_clusters_)
+    plt.legend(loc='best')
     plt.show()
