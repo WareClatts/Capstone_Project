@@ -371,3 +371,39 @@ def DBSCAN_processing(clustering, df):
     plt.title('Estimated number of clusters: %d' % n_clusters_)
     plt.legend(loc='best')
     plt.show()
+    
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+
+def clusters_3dplot(df, cluster_col, x_col, y_col, z_col, cluster_labels):
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    scale = 8
+    colors = [plt.cm.Spectral(each) for each in np.linspace(0, 1, len(cluster_labels))]
+
+    # Make data.
+    for i in cluster_labels:
+
+        temp = df[df[cluster_col]==i]
+        Z = temp[z_col]
+        X = temp[x_col]
+        Y = temp[y_col]
+
+        # Plot the surface.
+        if i==-1:
+            color='k'
+        else:
+            color=colors[i]
+        scat = ax.scatter(X, Y, Z, c=color, linewidth=0, antialiased=False)
+
+    ax.set_xlabel('MCA component 1')
+    ax.set_ylabel('MCA component 2')
+    ax.set_zlabel('PCA component 1')
+
+    # rotate the axes and update
+    for angle in range(0, 360):
+        ax.view_init(30, 40)
+
+    plt.show()
