@@ -14,6 +14,14 @@ The aims of the project are two-fold:
   - Product a customer-segmentation report, outlining how the customer population (data source 2) differs from the general population of Germany (data source 1). This must be done using unsupervised learning techniques.
   - Use supervised learning techniques  to predict which customers are likely to respond positively to a marketing campaign run by the mail-order company (data source 3).
 
-Included in this repository is a notebook of the steps I have taken to acheive these goals, as well as a .py file containing functions used. A write-up of the project can be found at https://clare-j.medium.com/mail-order-company-customer-analysis-c4ebb8a6272e where the approach taken is walked through and the steps align with the notebook. 
+Included in this repository is a notebook of the steps I have taken to acheive these goals, as well as a .py file containing functions used. A write-up of the project can be found at https://clare-j.medium.com/mail-order-company-customer-analysis-c4ebb8a6272e where the approach taken is walked through and the steps align with the notebook.
+Libraries used:
+  - numpy
+  - pandas
+  - matplotlib.pyplot
+  - pickle
+  - prince
+  - sklearn
+  - imblearn
 
 Credit to Udacity for the project, data and support.
